@@ -1,0 +1,65 @@
+﻿.coverpage {
+    background-color: #FBEBB5;
+    height: 100vh;
+    width: 100%;
+    display: flex
+}
+
+.logo {
+    width: 40%;
+    padding-top: 20%;
+    padding-left: 20%;
+}
+
+.logo_name {
+    font-size: 39px;
+    font-weight: 600;
+}
+
+.coverimage {
+    width: 60%;
+    display: flex;
+    justify-content: center;
+}
+
+.best-seller-container {
+    width: 100%
+}
+
+.product-image {
+    width: 150px;
+}
+
+.card-container {
+    width: 100%
+}
+
+.card-container {
+  display:flex;
+  justify-content: center;
+}
+
+.card {
+    width: 200px;
+    text-align: center;
+    overflow: hidden;
+    margin: 10px;
+    padding-top: 30px;
+}
+
+.buttonover {
+    transform: translateY(90px);
+    height: 30px;
+    width: 50px;
+    margin: auto;
+}
+
+.card:hover .buttonover {
+    transform: translateY(-140px);
+    transition: 0.3s ease;
+}
+
+.card:hover {
+    transition: 0.3s ease;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
