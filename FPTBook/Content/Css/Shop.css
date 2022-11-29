@@ -28,3 +28,22 @@
     margin-bottom: auto;
     margin-right: 10px;
 }
+
+.cart{
+    display:flex;
+    justify-content:center;
+}
+.all-item {
+    width: 60%;
+    
+}
+.total-bill {
+    width: 30%;
+    
+}
+.book-cart{
+    display:flex;
+}
+.checkout{
+    margin-left:50px;
+}
