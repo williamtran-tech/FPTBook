@@ -22,29 +22,22 @@
     justify-content: center;
 }
 
-.best-seller-container {
-    width: 100%
-}
+
 
 .product-image {
     width: 150px;
 }
 
-.card-container {
-    width: 100%
+.card-container{
+   display:flex;
+   justify-content: center;
 }
-
-.card-container {
-  display:flex;
-  justify-content: center;
-}
-
 .card {
-    width: 200px;
     text-align: center;
     overflow: hidden;
     margin: 10px;
     padding-top: 30px;
+    margin-left: 100px;
 }
 
 .buttonover {

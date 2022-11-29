@@ -1,0 +1,59 @@
+﻿
+@{
+    ViewBag.Title = "BookBrowser";
+}
+<div class="banner">
+    <div class="maplink text-center">
+        <div class="shopname">FPT Book Store</div>
+        <div>
+            @Html.ActionLink("Home", "Index", "Home") >>>
+            @Html.ActionLink("Shop", "Index", "Shop")
+        </div>
+    </div>
+</div>
+<div class="filter">
+    <h4 class="category">Category</h4>
+    <select class="ui search dropdown">
+        <option value="">Novel</option>
+        <option value="AL">Science</option>
+        <option value="AK">Economy</option>
+        <option value="AZ">Biology</option>
+        <option value="AR">Short story</option>
+        <option value="CA">Wibu</option>
+    </select>
+</div>
+<div class="best-seller-container ">
+    <div class="card-container row container ">
+        <div class="card col-sm">
+            <img src="~/Content/Images/cover1.png" alt="" class="product-image" />
+            <p class="title">Card title</p>
+            <div class="buttonover btn btn-primary">Buy</div>
+        </div>
+        <div class="card col-sm">
+            <img src="~/Content/Images/cover1.png" alt="" class="product-image" />
+            <p class="title">Card title</p>
+            <div class="buttonover btn btn-primary">Buy</div>
+        </div>
+        <div class="card col-sm">
+            <img src="~/Content/Images/cover1.png" alt="" class="product-image" />
+            <p class="title">Card title</p>
+            <div class="buttonover btn btn-primary">Buy</div>
+        </div>
+        <div class="card col-sm">
+            <img src="~/Content/Images/cover1.png" alt="" class="product-image" />
+            <p class="title">Card title</p>
+            <div class="buttonover btn btn-primary">Buy</div>
+        </div>
+        <div class="card col-sm">
+            <img src="~/Content/Images/cover1.png" alt="" class="product-image" />
+            <p class="title">Card title</p>
+            <div class="buttonover btn btn-primary">Buy</div>
+        </div>
+        <div class="card col-sm">
+            <img src="~/Content/Images/cover1.png" alt="" class="product-image" />
+            <p class="title">Card title</p>
+            <div class="buttonover btn btn-primary">Buy</div>
+        </div>
+
+    </div>
+</div>
