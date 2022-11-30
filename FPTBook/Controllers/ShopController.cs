@@ -17,5 +17,9 @@ namespace FPTBook.Controllers
         {
             return View();
         }
+        public ActionResult BookDetail()
+        {
+            return View();
+        }
     }
 }
