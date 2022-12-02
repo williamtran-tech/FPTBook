@@ -179,6 +179,10 @@
     <Compile Include="Migrations\202212021535123_AddBookPriceMig.Designer.cs">
       <DependentUpon>202212021535123_AddBookPriceMig.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202212021627320_SeedDBwithNewBook.cs" />
+    <Compile Include="Migrations\202212021627320_SeedDBwithNewBook.Designer.cs">
+      <DependentUpon>202212021627320_SeedDBwithNewBook.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
@@ -275,6 +279,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202212021535123_AddBookPriceMig.resx">
       <DependentUpon>202212021535123_AddBookPriceMig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202212021627320_SeedDBwithNewBook.resx">
+      <DependentUpon>202212021627320_SeedDBwithNewBook.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
