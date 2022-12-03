@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using FPTBook.Models;
+using FPTBook.Models.ViewModels;
 
 namespace FPTBook.Controllers
 {
@@ -18,7 +19,11 @@ namespace FPTBook.Controllers
         public ActionResult Index()
         {
             //ViewBag.AuthorName = db.Users.Take(1);
-            return View(db.Books.ToList());
+            var authors = db.Users.Take(3).ToList();
+            var books = db.Books.Take(3).ToList();
+
+            var lsBook = new ManageBookViewModel(books, authors);
+            return View(lsBook);
         }
 
         // GET: Books/Details/5

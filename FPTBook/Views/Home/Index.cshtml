@@ -1,4 +1,5 @@
-﻿@{ ViewBag.Title = "Home Page"; }
+﻿@model List<FPTBook.Models.Book>
+@{ ViewBag.Title = "Home Page"; }
 
 <div class="coverpage ">
     <div class="logo">
@@ -22,41 +23,17 @@
         </h2>
     </div>
     <div class="card-container row container">
-        <div class="card col">
-            <img src="~/Content/Images/cover1.png" alt="" class="product-image" />
-            <p class="title">Card title</p>
-            <div class="buttonover btn btn-primary">Buy</div>
-        </div>
-        <div class="card col-sm">
-            <img src="~/Content/Images/cover1.png" alt="" class="product-image" />
-            <p class="title">Card title</p>
-            <div class="buttonover btn btn-primary">Buy</div>
-        </div>
-        <div class="card col-sm">
-            <img src="~/Content/Images/cover1.png" alt="" class="product-image" />
-            <p class="title">Card title</p>
-            <div class="buttonover btn btn-primary">Buy</div>
-        </div>
-        <div class="card col-sm">
-            <img src="~/Content/Images/cover1.png" alt="" class="product-image" />
-            <p class="title">Card title</p>
-            <div class="buttonover btn btn-primary">Buy</div>
-        </div>
-        <div class="card col-sm">
-            <img src="~/Content/Images/cover1.png" alt="" class="product-image" />
-            <p class="title">Card title</p>
-            <div class="buttonover btn btn-primary">Buy</div>
-        </div>
-        <div class="card col-sm">
-            <img src="~/Content/Images/cover1.png" alt="" class="product-image" />
-            <p class="title">Card title</p>
-            <div class="buttonover btn btn-primary">Buy</div>
-        </div>
-        <div class="card col-sm">
-            <img src="~/Content/Images/cover1.png" alt="" class="product-image" />
-            <p class="title">Card title</p>
-            <div class="buttonover btn btn-primary">Buy</div>
-        </div>
+        @foreach (var book in Model)
+        {
+            <div class="card col">
+                <img src="~/Content/Images/cover1.png" alt="" class="product-image" />
+                <p class="title">@book.Title</p>
+                <p>@book.Price</p>
+                <div class="buttonover btn btn-primary">Buy</div>
+            </div>
+        }
+
+
     </div>
 </div>
 
