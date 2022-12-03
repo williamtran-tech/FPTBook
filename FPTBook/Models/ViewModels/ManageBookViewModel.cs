@@ -16,4 +16,4 @@ namespace FPTBook.Models.ViewModels
         public List<Book> Books { get; set; }
         public List<ApplicationUser> Authors { get; set; }
     }
-}
+} 

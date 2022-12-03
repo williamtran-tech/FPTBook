@@ -21,5 +21,6 @@ namespace FPTBook.Models
         }
 
         public System.Data.Entity.DbSet<FPTBook.Models.Book> Books { get; set; }
+        public DbSet<FPTBook.Models.Category> Categories { get; set; }
     }
 }
