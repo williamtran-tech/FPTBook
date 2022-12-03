@@ -25,6 +25,9 @@
             Date
         </th>
         <th>
+            Category
+        </th>
+        <th>
             Author
         </th>
         <th></th>
@@ -43,6 +46,9 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => book.Date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => book.Category.Name)
         </td>
         <td>
             @Html.DisplayFor(modelItem => book.Author.Email)

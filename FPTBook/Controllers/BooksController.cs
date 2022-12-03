@@ -21,8 +21,9 @@ namespace FPTBook.Controllers
             //ViewBag.AuthorName = db.Users.Take(1);
             var authors = db.Users.Take(3).ToList();
             var books = db.Books.Take(3).ToList();
+            var categories = db.Categories.Take(3).ToList();
 
-            var lsBook = new ManageBookViewModel(books, authors);
+            var lsBook = new ManageBookViewModel(books, authors, categories);
             return View(lsBook);
         }
 
