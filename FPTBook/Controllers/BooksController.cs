@@ -17,6 +17,7 @@ namespace FPTBook.Controllers
         // GET: Books
         public ActionResult Index()
         {
+            //ViewBag.AuthorName = db.Users.Take(1);
             return View(db.Books.ToList());
         }
 

@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<FPTBook.Models.Book>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Admin Page";
 }
 
 <h2>Index</h2>
@@ -34,18 +34,18 @@
         <td>
             @Html.DisplayFor(modelItem => item.Title)
         </td>
-        <th>
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Price)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Date)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Author)
-        </th>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Price)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Author)
+        </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
             @Html.ActionLink("Details", "Details", new { id = item.Id }) |
