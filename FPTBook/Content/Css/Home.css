@@ -1,4 +1,5 @@
-﻿.coverpage {
+﻿
+.coverpage {
     background-color: #FBEBB5;
     height: 100vh;
     width: 100%;
@@ -21,23 +22,37 @@
     display: flex;
     justify-content: center;
 }
+.grid-container {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    background-color: #2196F3;
+    padding: 10px;
+}
 
+.grid-item {
+    background-color: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    font-size: 30px;
+    text-align: center;
+}
 
 
 .product-image {
     width: 150px;
 }
 
-.card-container{
-   display:flex;
-   justify-content: center;
+.card-container {
+    display:flex;
+    justify-content:center;
 }
 .card {
     text-align: center;
     overflow: hidden;
     margin: 10px;
     padding-top: 30px;
-    margin-left: 100px;
+    margin-left: 70px;
+
 }
 
 .buttonover {
