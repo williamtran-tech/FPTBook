@@ -20,7 +20,10 @@ namespace FPTBook.Models
             return new ApplicationDbContext();
         }
 
-        public System.Data.Entity.DbSet<FPTBook.Models.Book> Books { get; set; }
-        public DbSet<FPTBook.Models.Category> Categories { get; set; }
+        public DbSet<Book> Books { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Cart> Carts { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderDetail> OrderDetails { get; set; }
     }
 }
