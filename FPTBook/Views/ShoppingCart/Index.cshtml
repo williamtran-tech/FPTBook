@@ -39,7 +39,9 @@
 <script type="text/javascript">
     $(function () {
         // Document.ready -> link up remove event handler
-        $(".RemoveLink").click(function () {
+        $(".RemoveLink").click(function (e) {
+            // preventDefault to stop scrolling to the top of page
+            e.preventDefault();
             // Get the id from the link
             var recordToDelete = $(this).attr("data-id");
             if (recordToDelete != '') {
@@ -56,13 +58,14 @@
                         $('#cart-total').text(data.CartTotal);
                         $('#update-message').text(data.Message);
                         $('#cart-status').text('Cart (' + data.CartCount + ')');
+                        $('#cart-count').text('Cart (' + data.CartCount + ')');
                     });
             }
         });
     });
 </script>
 <h3>
-    <em>Review</em> your cart:
+    <em>Review</em> your cart: 
 </h3>
 <p class="button">
     @Html.ActionLink("Checkout >> ", "AddressAndPayment", "Checkout")
@@ -95,8 +98,7 @@
                 @item.Count
             </td>
             <td>
-                <a href="#" class="RemoveLink"
-                   data-id="@item.RecordId">
+                <a href="#" class="RemoveLink" data-id="@item.RecordId">
                     Remove from cart
                 </a>
             </td>

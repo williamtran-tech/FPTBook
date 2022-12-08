@@ -1,5 +1,27 @@
 ﻿@model List<FPTBook.Models.Book>
-@{ ViewBag.Title = "Home Page"; }
+@{
+    ViewBag.Title = "Home Page";
+}
+<script src="~/Scripts/jquery-3.4.1.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $(function () {
+        // Document.ready -> link up remove event handler
+        $(".AddToCart").click(function (e) {
+            e.preventDefault();
+            // Get the id from the link
+            var recordToAdd = $(this).attr("data-id");
+            if (recordToAdd != '') {
+                // Perform the ajax post
+                $.post("/ShoppingCart/AddToCartTest", {"id": recordToAdd },
+                    function (data) {
+                        // Successful requests get here
+                        // Update the page elements
+                        $('#cart-count').text('Cart (' + data + ')');
+                    });
+            }
+        });
+    });
+</script>
 
 <div class="coverpage ">
     <div class="logo">
@@ -24,19 +46,13 @@
     </div>
     <div class="card-container">
         @*<div class="row card-row">
-            @foreach (var book in Model)
-            {
-                <div class="card col-md-2">
-                    <img src="~/Content/Images/cover1.png" alt="" class="product-image" />
-                    <p class="title">@book.Title</p>
-                    <p>@book.Price</p>
-                    <div class="buttonover btn btn-primary">
-                        @Html.ActionLink("Add to cart", "AddToCart", "ShoppingCart", new { id = book.Id }, "")
+                    <div class="card col-md-2">
+                        <img src="~/Content/Images/cover1.png" alt="" class="product-image" />
+                        <p class="title">OK</p>
+                        <p>5$</p>
+                        <div class="buttonover btn btn-primary">Buy</div>
                     </div>
-                </div>
-            }
-        </div>*@
-       
+            </div>*@
         <div class="row card-row">
             @foreach (var book in Model)
             {
@@ -44,35 +60,42 @@
                     <img src="~/Content/Images/cover1.png" alt="" class="product-image" />
                     <p class="title">@book.Title</p>
                     <p>$@book.Price</p>
-                    <div class="buttonover btn btn-primary">
-                        Buy @Html.ActionLink("Add to Cart", "AddToCart", "ShoppingCart", new { id = book.Id }, "")
+                    <div>
+                        <a href="#" class="AddToCart buttonover btn btn-primary" data-id="@book.Id">
+                            Buy
+                        </a>
                     </div>
                 </div>
                 <div class="card col-md-2">
                     <img src="~/Content/Images/cover1.png" alt="" class="product-image" />
                     <p class="title">@book.Title</p>
                     <p>$@book.Price</p>
-                    <div class="buttonover btn btn-primary">
-                        Buy @Html.ActionLink("Add to Cart", "AddToCart", "ShoppingCart", new { id = book.Id }, "")
+                    <div>
+                        <a href="#" class="AddToCart buttonover btn btn-primary" data-id="@book.Id">
+                            Buy
+                        </a>
                     </div>
                 </div>
                 <div class="card col-md-2">
                     <img src="~/Content/Images/cover1.png" alt="" class="product-image" />
                     <p class="title">@book.Title</p>
                     <p>$@book.Price</p>
-                    <div class="buttonover btn btn-primary">
-                        Buy @Html.ActionLink("Add to Cart", "AddToCart", "ShoppingCart", new { id = book.Id }, "")
+                    <div>
+                        <a href="#" class="AddToCart buttonover btn btn-primary" data-id="@book.Id">
+                            Buy
+                        </a>
                     </div>
                 </div>
                 <div class="card col-md-2">
                     <img src="~/Content/Images/cover1.png" alt="" class="product-image" />
                     <p class="title">@book.Title</p>
                     <p>$@book.Price</p>
-                    <div class="buttonover btn btn-primary">
-                        Buy @Html.ActionLink("Add to Cart", "AddToCart", "ShoppingCart", new { id = book.Id }, "")
+                    <div>
+                        <a href="#" class="AddToCart buttonover btn btn-primary" data-id="@book.Id">
+                            Buy
+                        </a>
                     </div>
                 </div>
-
             }
         </div>
     </div>

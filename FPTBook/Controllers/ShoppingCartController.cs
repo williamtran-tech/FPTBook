@@ -15,6 +15,8 @@ namespace FPTBook.Controllers
         public ActionResult Index()
         {
             var cart = ShoppingCart.GetCart(this.HttpContext);
+            // Update cart quantity
+            ViewBag.CartCount = cart.GetCount();
 
             // Set up our ViewModel
             var viewModel = new ShoppingCartViewModel
@@ -34,7 +36,7 @@ namespace FPTBook.Controllers
 
             // Add it to the shopping cart
             var cart = ShoppingCart.GetCart(this.HttpContext);
-
+            ViewBag.CartCount = cart.GetCount();
             cart.AddToCart(addedBook);
 
             // Go back to the main store page for more shopping
@@ -49,7 +51,7 @@ namespace FPTBook.Controllers
             var cart = ShoppingCart.GetCart(this.HttpContext);
 
             // Get the name of the album to display confirmation
-            string albumName = db.Carts
+            string bookName = db.Carts
                 .Single(item => item.RecordId == id).Book.Title;
 
             // Remove from cart
@@ -58,7 +60,7 @@ namespace FPTBook.Controllers
             // Display the confirmation message
             var results = new ShoppingCartRemoveViewModel
             {
-                Message = Server.HtmlEncode(albumName) +
+                Message = Server.HtmlEncode(bookName) +
                     " has been removed from your shopping cart.",
                 CartTotal = (double)cart.GetTotal(),
                 CartCount = cart.GetCount(),
@@ -66,6 +68,25 @@ namespace FPTBook.Controllers
                 DeleteId = id
             };
             return Json(results);
+        }
+
+        [HttpPost]
+        public ActionResult AddToCartTest(int id)
+        {
+            // Retrieve the album from the database
+            var addedBook = db.Books
+                .Single(book => book.Id == id);
+
+            // Add it to the shopping cart
+            var cart = ShoppingCart.GetCart(this.HttpContext);
+            cart.AddToCart(addedBook);
+
+            // Display update cart
+            var results = new ShoppingCartRemoveViewModel
+            {
+                CartCount = cart.GetCount()
+            };
+            return Json(cart.GetCount());
         }
         //
         // GET: /ShoppingCart/CartSummary

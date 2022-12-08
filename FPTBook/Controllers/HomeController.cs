@@ -12,6 +12,8 @@ namespace FPTBook.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
         public ActionResult Index()
         {
+            var cart = ShoppingCart.GetCart(this.HttpContext);
+            ViewBag.CartCount = cart.GetCount();
             return View(db.Books.Take(4).ToList());
         }
 

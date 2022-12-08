@@ -27,6 +27,8 @@ namespace FPTBook.Controllers
         }
         public ActionResult BookDetail()
         {
+            var cart = ShoppingCart.GetCart(this.HttpContext);
+            ViewBag.CartCount = cart.GetCount();
             return View();
         }
     }
