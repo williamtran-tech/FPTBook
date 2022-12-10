@@ -71,3 +71,27 @@
     transition: 0.3s ease;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
+.cart-btn {
+    float: right;
+    padding: 15px;
+}
+
+.cart-btn a {
+    text-decoration: none;
+    color: grey;
+}
+
+.cart-btn span {
+    background-color: red;
+    padding: 0px 4px;
+    border-radius: 50%;
+}
+
+.cart-btn a:hover {
+    color: white;
+}
+
+.cart-btn div {
+    margin-top: -28px;
+    margin-left: 20px;
+}
