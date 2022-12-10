@@ -21,13 +21,18 @@
                     <li>@Html.ActionLink("Shop", "Index", "Shop")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                    @*Cart part goes here
-                    @*Cart update quantity here*@
-                    <li>
-                       <a id="cart-count" href="~/ShoppingCart/Index">Cart (@ViewBag.CartCount)</a> 
-                    </li>
                 </ul>
                 @Html.Partial("_LoginPartial")
+                @*Cart part goes here
+        @*Cart update quantity here*@
+                <div class="nav navbar-nav cart-btn">
+                    <a href="~/ShoppingCart/Index">Cart</a>
+                    <div>
+                        <span id="cart-count">
+                            @ViewBag.CartCount
+                        </span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
