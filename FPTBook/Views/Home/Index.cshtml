@@ -12,7 +12,7 @@
             var recordToAdd = $(this).attr("data-id");
             if (recordToAdd != '') {
                 // Perform the ajax post
-                $.post("/ShoppingCart/AddToCartTest", {"id": recordToAdd },
+                $.post("/ShoppingCart/AddToCart", {"id": recordToAdd },
                     function (data) {
                         // Successful requests get here
                         // Update the page elements
@@ -56,36 +56,6 @@
         <div class="row card-row">
             @foreach (var book in Model)
             {
-                <div class="card col-md-2">
-                    <img src="~/Content/Images/cover1.png" alt="" class="product-image" />
-                    <p class="title">@book.Title</p>
-                    <p>$@book.Price</p>
-                    <div>
-                        <a href="#" class="AddToCart buttonover btn btn-primary" data-id="@book.Id">
-                            Buy
-                        </a>
-                    </div>
-                </div>
-                <div class="card col-md-2">
-                    <img src="~/Content/Images/cover1.png" alt="" class="product-image" />
-                    <p class="title">@book.Title</p>
-                    <p>$@book.Price</p>
-                    <div>
-                        <a href="#" class="AddToCart buttonover btn btn-primary" data-id="@book.Id">
-                            Buy
-                        </a>
-                    </div>
-                </div>
-                <div class="card col-md-2">
-                    <img src="~/Content/Images/cover1.png" alt="" class="product-image" />
-                    <p class="title">@book.Title</p>
-                    <p>$@book.Price</p>
-                    <div>
-                        <a href="#" class="AddToCart buttonover btn btn-primary" data-id="@book.Id">
-                            Buy
-                        </a>
-                    </div>
-                </div>
                 <div class="card col-md-2">
                     <img src="~/Content/Images/cover1.png" alt="" class="product-image" />
                     <p class="title">@book.Title</p>

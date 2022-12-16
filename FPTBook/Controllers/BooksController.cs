@@ -19,22 +19,21 @@ namespace FPTBook.Controllers
         public ActionResult Index()
         {
             //ViewBag.AuthorName = db.Users.Take(1);
-            var authors = db.Users.Take(3).ToList();
-            var books = db.Books.Take(3).ToList();
-            var categories = db.Categories.Take(3).ToList();
+            var books = db.Books.ToList();
+            var categories = db.Categories.ToList();
 
-            var lsBook = new ManageBookViewModel(books, authors, categories);
+            var lsBook = new ManageBookViewModel(books, categories);
             return View(lsBook);
         }
 
-        // GET: Books/Details/5
+        //GET: Books/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Book book = db.Books.Find(id);
+            } 
+            Models.Book book = db.Books.Find(id);
             if (book == null)
             {
                 return HttpNotFound();
@@ -45,6 +44,10 @@ namespace FPTBook.Controllers
         // GET: Books/Create
         public ActionResult Create()
         {
+
+            //ViewBag.categories = db.Categories.ToList();
+            ViewBag.Categories = new SelectList(db.Categories, "Id", "Name");
+
             return View();
         }
 
@@ -53,15 +56,21 @@ namespace FPTBook.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Title,Body,Date")] Book book)
+        public ActionResult Create(Models.Book book)
         {
-            if (ModelState.IsValid)
+            //var errors = ModelState
+            //    .Where(x => x.Value.Errors.Count > 0)
+            //    .Select(x => new { x.Key, x.Value.Errors })
+            //    .ToArray();
+            book.Category = db.Categories.Where(u => u.Id == book.Category.Id).FirstOrDefault();
+            //The model state is not valid because of nullable feild in the form
+            if (!ModelState.IsValid)
             {
                 db.Books.Add(book);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
+            
             return View(book);
         }
 
@@ -72,7 +81,7 @@ namespace FPTBook.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Book book = db.Books.Find(id);
+            Models.Book book = db.Books.Find(id);
             if (book == null)
             {
                 return HttpNotFound();
@@ -103,7 +112,7 @@ namespace FPTBook.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Book book = db.Books.Find(id);
+            Models.Book book = db.Books.Find(id);
             if (book == null)
             {
                 return HttpNotFound();
@@ -116,7 +125,7 @@ namespace FPTBook.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Book book = db.Books.Find(id);
+            Models.Book book = db.Books.Find(id);
             db.Books.Remove(book);
             db.SaveChanges();
             return RedirectToAction("Index");

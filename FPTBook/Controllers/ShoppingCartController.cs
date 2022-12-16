@@ -28,21 +28,22 @@ namespace FPTBook.Controllers
             return View(viewModel);
         }
         // GET: /Store/AddToCart/5
-        public ActionResult AddToCart(int id)
-        {
-            // Retrieve the album from the database
-            var addedBook = db.Books
-                .Single(book => book.Id == id);
+        //public ActionResult AddToCart(int id)
+        //{
+        //    // Retrieve the album from the database
+        //    var addedBook = db.Books
+        //        .Single(book => book.Id == id);
 
-            // Add it to the shopping cart
-            var cart = ShoppingCart.GetCart(this.HttpContext);
-            ViewBag.CartCount = cart.GetCount();
-            cart.AddToCart(addedBook);
+        //    // Add it to the shopping cart
+        //    var cart = ShoppingCart.GetCart(this.HttpContext);
+        //    ViewBag.CartCount = cart.GetCount();
+        //    cart.AddToCart(addedBook);
 
-            // Go back to the main store page for more shopping
-            return RedirectToAction("Index");
-        }
+        //    // Go back to the main store page for more shopping
+        //    return RedirectToAction("Index");
+        //}
         //
+
         // AJAX: /ShoppingCart/RemoveFromCart/5
         [HttpPost]
         public ActionResult RemoveFromCart(int id)
@@ -71,7 +72,7 @@ namespace FPTBook.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddToCartTest(int id)
+        public ActionResult AddToCart(int id)
         {
             // Retrieve the album from the database
             var addedBook = db.Books

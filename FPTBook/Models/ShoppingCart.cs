@@ -151,8 +151,7 @@ namespace FPTBook.Models
             {
                 if (!string.IsNullOrWhiteSpace(context.User.Identity.Name))
                 {
-                    context.Session[CartSessionKey] =
-                        context.User.Identity.Name;
+                    context.Session[CartSessionKey] = context.User.Identity.Name;
                 }
                 else
                 {

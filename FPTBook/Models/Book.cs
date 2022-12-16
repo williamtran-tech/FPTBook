@@ -23,6 +23,7 @@ namespace FPTBook.Models
         public DateTime Date { get; set; }
         [Required]
         public Category Category { get; set; }
-        public ApplicationUser Author { get; set; }
+        [Required]
+        public string Author { get; set; }
     }
 }
