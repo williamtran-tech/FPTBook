@@ -57,7 +57,7 @@
             @foreach (var book in Model)
             {
                 <div class="card col-md-2">
-                    <img src="~/Content/Images/cover1.png" alt="" class="product-image" />
+                    <img src="~\..\..\Images\@book.ImagePath" alt="@book.Slug" class="product-image" />
                     <p class="title">@book.Title</p>
                     <p>$@book.Price</p>
                     <div>

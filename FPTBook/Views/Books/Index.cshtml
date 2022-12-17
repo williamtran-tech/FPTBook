@@ -15,6 +15,9 @@
     <table class="table">
         <tr>
             <th>
+                Image
+            </th>
+            <th>
                 Title
             </th>
             <th>
@@ -39,6 +42,9 @@
         {
             <tr>
                 <td>
+                    <img src="~\..\..\Images\@book.ImagePath" alt="@book.Slug" width="100px"/>
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => book.Title)
                 </td>
                 <td>
@@ -56,6 +62,7 @@
                 <td>
                     @Html.DisplayFor(modelItem => book.Author)
                 </td>
+                
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { id = book.Id }) |
                     @Html.ActionLink("Details", "Details", new { id = book.Id }) |

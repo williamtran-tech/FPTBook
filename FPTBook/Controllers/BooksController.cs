@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -56,16 +57,33 @@ namespace FPTBook.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Models.Book book)
+        public ActionResult Create(Models.Book book, HttpPostedFileBase fileImage)
         {
             //var errors = ModelState
             //    .Where(x => x.Value.Errors.Count > 0)
             //    .Select(x => new { x.Key, x.Value.Errors })
             //    .ToArray();
             book.Category = db.Categories.Where(u => u.Id == book.Category.Id).FirstOrDefault();
-            //The model state is not valid because of nullable feild in the form
+            //The model state is not valid because of nullable feild in the form (category select)
             if (!ModelState.IsValid)
             {
+                if (fileImage != null || fileImage.ContentLength > 0)
+                {
+                    string _Filename = Path.GetFileName(fileImage.FileName);
+
+                    string path = Path.Combine(Server.MapPath("/Images/"), _Filename);
+                    if (System.IO.File.Exists(path))
+                    {
+                        System.IO.File.Delete(path);
+                        fileImage.SaveAs(path);
+                        book.ImagePath = _Filename;
+                    }
+                    else
+                    {
+                        fileImage.SaveAs(path);
+                        book.ImagePath = _Filename;
+                    }
+                }
                 db.Books.Add(book);
                 db.SaveChanges();
                 return RedirectToAction("Index");

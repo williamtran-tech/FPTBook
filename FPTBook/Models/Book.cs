@@ -25,5 +25,7 @@ namespace FPTBook.Models
         public Category Category { get; set; }
         [Required]
         public string Author { get; set; }
+        [Required]
+        public string ImagePath { get; set; }
     }
 }
