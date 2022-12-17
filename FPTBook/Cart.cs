@@ -19,7 +19,9 @@ namespace FPTBook
         public int BookId { get; set; }
         public int Count { get; set; }
         public System.DateTime DateCreated { get; set; }
+        public string User_Id { get; set; }
     
         public virtual Book Book { get; set; }
+        public virtual AspNetUser AspNetUser { get; set; }
     }
 }

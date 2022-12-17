@@ -13,6 +13,7 @@ namespace FPTBook.Models
         public string CartId { get; set; }
         public int BookId { get; set; }
         public int Count { get; set; }
+        public ApplicationUser User { get; set; }
         public System.DateTime DateCreated { get; set; }
         public virtual Book Book { get; set; }
     }

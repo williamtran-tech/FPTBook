@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="__MigrationHistory">
           <Key>
             <PropertyRef Name="MigrationId" />
@@ -78,7 +78,7 @@
           <Property Name="Price" Type="float" Nullable="false" />
           <Property Name="Slug" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Category_Id" Type="int" Nullable="false" />
-          <Property Name="Author" Type="nvarchar(max)" />
+          <Property Name="Author" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
         <EntityType Name="Carts">
           <Key>
@@ -89,6 +89,7 @@
           <Property Name="BookId" Type="int" Nullable="false" />
           <Property Name="Count" Type="int" Nullable="false" />
           <Property Name="DateCreated" Type="datetime" Nullable="false" />
+          <Property Name="User_Id" Type="nvarchar" MaxLength="128" />
         </EntityType>
         <EntityType Name="Categories">
           <Key>
@@ -190,6 +191,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_dbo_Carts_dbo_AspNetUsers_User_Id">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
+          <End Role="Carts" Type="Self.Carts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Carts">
+              <PropertyRef Name="User_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_dbo_Carts_dbo_Books_BookId">
           <End Role="Books" Type="Self.Books" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -264,6 +277,10 @@
             <End Role="Categories" EntitySet="Categories" />
             <End Role="Books" EntitySet="Books" />
           </AssociationSet>
+          <AssociationSet Name="FK_dbo_Carts_dbo_AspNetUsers_User_Id" Association="Self.FK_dbo_Carts_dbo_AspNetUsers_User_Id">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Carts" EntitySet="Carts" />
+          </AssociationSet>
           <AssociationSet Name="FK_dbo_Carts_dbo_Books_BookId" Association="Self.FK_dbo_Carts_dbo_Books_BookId">
             <End Role="Books" EntitySet="Books" />
             <End Role="Carts" EntitySet="Carts" />
@@ -277,8 +294,7 @@
             <End Role="OrderDetails" EntitySet="OrderDetails" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -341,6 +357,7 @@
           <NavigationProperty Name="AspNetUserClaims" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserClaims" />
           <NavigationProperty Name="AspNetUserLogins" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserLogins" />
           <NavigationProperty Name="AspNetRoles" Relationship="Self.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
+          <NavigationProperty Name="Carts" Relationship="Model.FK_dbo_Carts_dbo_AspNetUsers_User_Id" FromRole="AspNetUser" ToRole="Cart" />
         </EntityType>
         <EntityType Name="Book">
           <Key>
@@ -353,7 +370,7 @@
           <Property Name="Price" Type="Double" Nullable="false" />
           <Property Name="Slug" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Category_Id" Type="Int32" Nullable="false" />
-          <Property Name="Author" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Author" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Category" Relationship="Self.FK_dbo_Books_dbo_Categories_Category_Id" FromRole="Books" ToRole="Categories" />
           <NavigationProperty Name="Carts" Relationship="Self.FK_dbo_Carts_dbo_Books_BookId" FromRole="Books" ToRole="Carts" />
           <NavigationProperty Name="OrderDetails" Relationship="Self.FK_dbo_OrderDetails_dbo_Books_BookId" FromRole="Books" ToRole="OrderDetails" />
@@ -368,6 +385,8 @@
           <Property Name="Count" Type="Int32" Nullable="false" />
           <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Book" Relationship="Self.FK_dbo_Carts_dbo_Books_BookId" FromRole="Carts" ToRole="Books" />
+          <Property Name="User_Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="Model.FK_dbo_Carts_dbo_AspNetUsers_User_Id" FromRole="Cart" ToRole="AspNetUser" />
         </EntityType>
         <EntityType Name="Category">
           <Key>
@@ -530,7 +549,23 @@
             <End Role="AspNetRoles" EntitySet="AspNetRoles" />
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
           </AssociationSet>
+          <AssociationSet Name="FK_dbo_Carts_dbo_AspNetUsers_User_Id" Association="Model.FK_dbo_Carts_dbo_AspNetUsers_User_Id">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="Cart" EntitySet="Carts" />
+          </AssociationSet>
         </EntityContainer>
+        <Association Name="FK_dbo_Carts_dbo_AspNetUsers_User_Id">
+          <End Type="Model.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
+          <End Type="Model.Cart" Role="Cart" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Cart">
+              <PropertyRef Name="User_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -610,6 +645,7 @@
           <EntitySetMapping Name="Carts">
             <EntityTypeMapping TypeName="Model.Cart">
               <MappingFragment StoreEntitySet="Carts">
+                <ScalarProperty Name="User_Id" ColumnName="User_Id" />
                 <ScalarProperty Name="RecordId" ColumnName="RecordId" />
                 <ScalarProperty Name="CartId" ColumnName="CartId" />
                 <ScalarProperty Name="BookId" ColumnName="BookId" />

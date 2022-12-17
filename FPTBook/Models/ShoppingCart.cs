@@ -112,6 +112,54 @@ namespace FPTBook.Models
                               cartItems.Book.Price).Sum();
             return total ?? decimal.Zero;
         }
+        
+        // We're using HttpContextBase to allow access to cookies.
+        // Getting the data from cart from this method 
+        public string GetCartId(HttpContextBase context)
+        {
+            if (context.Session[CartSessionKey] == null)
+            {
+                if (!string.IsNullOrWhiteSpace(context.User.Identity.Name))
+                {
+                    context.Session[CartSessionKey] = context.User.Identity.Name;
+                }
+                else
+                {
+                    // Generate a new random GUID using System.Guid class
+                    Guid tempCartId = Guid.NewGuid();
+                    // Send tempCartId back to client as a cookie
+                    context.Session[CartSessionKey] = tempCartId.ToString();
+                }
+            }
+            return context.Session[CartSessionKey].ToString();
+        }
+        // When a user has logged in, migrate their shopping cart to
+        // be associated with their username
+        public void MigrateCart(string userName)
+        {
+            var shoppingCart = db.Carts.Where(
+                c => c.CartId == ShoppingCartId);
+            var userID = db.Users.Where(u => u.Email == userName).FirstOrDefault();
+            foreach (Cart item in shoppingCart)
+            {
+                item.CartId = userName;
+                item.User = userID;
+            }
+            db.SaveChanges();
+        }
+
+        //Clear cart in the current use after requesting logoff
+        public ShoppingCart ClearCart(HttpContextBase context)
+        {
+            context.Session.Clear();
+            Guid tempCartId = Guid.NewGuid();
+            // Send tempCartId back to client as a cookie
+            context.Session[CartSessionKey] = tempCartId.ToString();
+            var cart = new ShoppingCart();
+            cart.ShoppingCartId = cart.GetCartId(context);
+            return cart;
+        }
+
         public int CreateOrder(Order order)
         {
             double orderTotal = 0;
@@ -137,44 +185,12 @@ namespace FPTBook.Models
             // Set the order's total to the orderTotal count
             order.Total = orderTotal;
 
-            
+
             db.SaveChanges();
             // Empty the shopping cart
             EmptyCart();
             // Return the OrderId as the confirmation number
             return order.OrderId;
-        }
-        // We're using HttpContextBase to allow access to cookies.
-        public string GetCartId(HttpContextBase context)
-        {
-            if (context.Session[CartSessionKey] == null)
-            {
-                if (!string.IsNullOrWhiteSpace(context.User.Identity.Name))
-                {
-                    context.Session[CartSessionKey] = context.User.Identity.Name;
-                }
-                else
-                {
-                    // Generate a new random GUID using System.Guid class
-                    Guid tempCartId = Guid.NewGuid();
-                    // Send tempCartId back to client as a cookie
-                    context.Session[CartSessionKey] = tempCartId.ToString();
-                }
-            }
-            return context.Session[CartSessionKey].ToString();
-        }
-        // When a user has logged in, migrate their shopping cart to
-        // be associated with their username
-        public void MigrateCart(string userName)
-        {
-            var shoppingCart = db.Carts.Where(
-                c => c.CartId == ShoppingCartId);
-
-            foreach (Cart item in shoppingCart)
-            {
-                item.CartId = userName;
-            }
-            db.SaveChanges();
         }
     }
 }

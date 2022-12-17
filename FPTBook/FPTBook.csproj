@@ -222,6 +222,10 @@
     <Compile Include="Migrations\202212160545445_notAllowNullAuthor.Designer.cs">
       <DependentUpon>202212160545445_notAllowNullAuthor.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202212170408014_createRefUserIDtoCart.cs" />
+    <Compile Include="Migrations\202212170408014_createRefUserIDtoCart.Designer.cs">
+      <DependentUpon>202212170408014_createRefUserIDtoCart.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model1.Context.cs">
       <AutoGen>True</AutoGen>
@@ -377,6 +381,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202212160545445_notAllowNullAuthor.resx">
       <DependentUpon>202212160545445_notAllowNullAuthor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202212170408014_createRefUserIDtoCart.resx">
+      <DependentUpon>202212170408014_createRefUserIDtoCart.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
