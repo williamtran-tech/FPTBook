@@ -45,7 +45,6 @@ namespace FPTBook.Controllers
         // GET: Books/Create
         public ActionResult Create()
         {
-
             //ViewBag.categories = db.Categories.ToList();
             ViewBag.Categories = new SelectList(db.Categories, "Id", "Name");
 
@@ -64,6 +63,7 @@ namespace FPTBook.Controllers
             //    .Select(x => new { x.Key, x.Value.Errors })
             //    .ToArray();
             book.Category = db.Categories.Where(u => u.Id == book.Category.Id).FirstOrDefault();
+            book.Date = DateTime.Now;
             //The model state is not valid because of nullable feild in the form (category select)
             if (!ModelState.IsValid)
             {
