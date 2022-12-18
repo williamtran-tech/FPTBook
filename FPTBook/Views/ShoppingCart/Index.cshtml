@@ -26,22 +26,47 @@
                         $('#update-message').text(data.Message);
                         $('#cart-status').text(data.CartCount);
                         $('#cart-count').text(data.CartCount);
+                        if (data.CartCount == 0) {
+                            $("#review-cart").addClass("hidden");
+                            $("#cart-overview").addClass("hidden");
+                            $("#Message").removeClass("hidden");
+                        }
+                        
                     });
             }
         });
     });
 </script>
+<script>
+    window.onload = function() {
+        var cart_quan = @ViewBag.CartCount;
+        if (cart_quan == 0) {
+            $("#Message").removeClass("hidden");
+            $("#review-cart").addClass("hidden");
+            $("#cart-overview").addClass("hidden");
+        }
+        else {
+            $("#review-cart").removeClass("hidden");
+            $("#cart-overview").removeClass("hidden");
+        }
+    };
+</script>
 
 <div class="container">
-    <h3>
-        <em>Review</em> your cart:
-    </h3>
-    <p>
+    <div id="Message" class="hidden container">
+        <h1>Your Cart is Empty</h1>
+        <p>Browse Book Here</p>@Html.ActionLink("Shop Here", "Index", "Home")
+    </div>
+    
+    <div id="review-cart" class="hidden">
+        <h3>
+            <em>Review</em> your cart:
+        </h3>
         @Html.ActionLink("Checkout", "AddressAndPayment", null, new { @class = "btn btn-success" })
-    </p>
+    </div>
     <div id="update-message">
     </div>
-    <table class="table">
+    <table id="cart-overview" class="table hidden">
         <tr>
             <th>
                 Image
@@ -93,39 +118,4 @@
         </tr>
     </table>
 </div>
-
-
-@*@model IEnumerable<FPTBook.Models.ViewModels.ShoppingCartViewModel>
-
-    @{
-        ViewBag.Title = "Index";
-    }
-
-    <h2>Index</h2>
-
-    <p>
-        @Html.ActionLink("Create New", "Create")
-    </p>
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.CartTotal)
-            </th>
-            <th></th>
-        </tr>
-
-    @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.CartTotal)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
-    }
-
-    </table>*@
 

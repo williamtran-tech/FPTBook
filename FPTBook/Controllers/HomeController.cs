@@ -14,11 +14,13 @@ namespace FPTBook.Controllers
         {
             var cart = ShoppingCart.GetCart(this.HttpContext);
             ViewBag.CartCount = cart.GetCount();
-            return View(db.Books.ToList());
+            return View(db.Books.Take(4).ToList());
         }
 
         public ActionResult About()
         {
+            var cart = ShoppingCart.GetCart(this.HttpContext);
+            ViewBag.CartCount = cart.GetCount();
             ViewBag.Message = "Your application description page.";
 
             return View();
@@ -26,6 +28,8 @@ namespace FPTBook.Controllers
 
         public ActionResult Contact()
         {
+            var cart = ShoppingCart.GetCart(this.HttpContext);
+            ViewBag.CartCount = cart.GetCount();
             ViewBag.Message = "Your contact page.";
 
             return View();

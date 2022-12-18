@@ -14,10 +14,12 @@ namespace FPTBook.Controllers
         // GET: Shop
         public ActionResult Index()
         {
-            var books = db.Books.Take(3).ToList();
-            var categories = db.Categories.Take(3).ToList();
+            var books = db.Books.ToList();
+            var categories = db.Categories.ToList();
 
             var lsBook = new ManageBookViewModel(books, categories);
+            var cart = ShoppingCart.GetCart(this.HttpContext);
+            ViewBag.CartCount = cart.GetCount();
             return View(lsBook);
         }
         public ActionResult Cart()

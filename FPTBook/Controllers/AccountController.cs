@@ -57,6 +57,8 @@ namespace FPTBook.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
+            var cart = ShoppingCart.GetCart(this.HttpContext);
+            ViewBag.CartCount = cart.GetCount();
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
@@ -199,6 +201,8 @@ namespace FPTBook.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
+            var cart = ShoppingCart.GetCart(this.HttpContext);
+            ViewBag.CartCount = cart.GetCount();
             return View();
         }
 

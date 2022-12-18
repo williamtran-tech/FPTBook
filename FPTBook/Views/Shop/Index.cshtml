@@ -14,33 +14,32 @@
 <div class="filter">
     <h4 class="category">Category</h4>
     <select class="ui search dropdown">
+        <option value="0">All</option>
         @foreach (var item in Model.Categories)
         {
-            <option value="@item.Slug">@item.Name</option>
+            <option value="@item.Id">@item.Name</option>
         }
     </select>
 </div>
-<div class="best-seller-container ">
-    <div class="card-container">
-        @*@foreach (var book in Model)
-        {
-            <div class="card col">
-                <img src="~/Content/Images/cover1.png" alt="" class="product-image" />
-                <p class="title">@book.Title</p>
-                <p>@book.Price</p>
-                <div class="buttonover btn btn-primary">Buy</div>
+<div class="container">
+    <div class="best-seller-container ">
+        <div class="card-container">
+            <div class="row card-row">
+                @foreach (var book in Model.Books)
+                {
+                    <div class="card col-md-2">
+                        <img src="~\..\..\Images\@book.ImagePath" alt="@book.Slug" class="product-image" />
+                        <p class="title">@book.Title</p>
+                        <p>$@book.Price</p>
+                        <div>
+                            <a href="#" class="AddToCart buttonover btn btn-primary" data-id="@book.Id">
+                                Buy
+                            </a>
+                        </div>
+                    </div>
+                }
             </div>
-        }*@
-        <div class="row card-row">
-            @for (int i = 0; i < 8; i++)
-            {
-                <div class="card col-md-2">
-                    <img src="~/Content/Images/cover1.png" alt="" class="product-image" />
-                    <p class="title">OK</p>
-                    <p>5$</p>
-                    <div class="buttonover btn btn-primary">Buy</div>
-                </div>
-            }
         </div>
     </div>
 </div>
+
