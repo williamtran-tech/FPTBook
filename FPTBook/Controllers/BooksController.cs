@@ -24,16 +24,20 @@ namespace FPTBook.Controllers
             var categories = db.Categories.ToList();
 
             var lsBook = new ManageBookViewModel(books, categories);
+            var cart = ShoppingCart.GetCart(this.HttpContext);
+            ViewBag.CartCount = cart.GetCount();
             return View(lsBook);
         }
 
         //GET: Books/Details/5
         public ActionResult Details(int? id)
         {
+            var cart = ShoppingCart.GetCart(this.HttpContext);
+            ViewBag.CartCount = cart.GetCount();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            } 
+            }
             Models.Book book = db.Books.Find(id);
             if (book == null)
             {
@@ -45,6 +49,8 @@ namespace FPTBook.Controllers
         // GET: Books/Create
         public ActionResult Create()
         {
+            var cart = ShoppingCart.GetCart(this.HttpContext);
+            ViewBag.CartCount = cart.GetCount();
             //ViewBag.categories = db.Categories.ToList();
             ViewBag.Categories = new SelectList(db.Categories, "Id", "Name");
 
@@ -88,18 +94,24 @@ namespace FPTBook.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            
+
             return View(book);
         }
 
         // GET: Books/Edit/5
         public ActionResult Edit(int? id)
         {
+            var cart = ShoppingCart.GetCart(this.HttpContext);
+            ViewBag.CartCount = cart.GetCount();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Models.Book book = db.Books.Find(id);
+
+            ViewBag.Categories = new SelectList(db.Categories, "Id", "Name");
+            ViewBag.ImgPath = book.ImagePath;
+
             if (book == null)
             {
                 return HttpNotFound();
@@ -112,10 +124,29 @@ namespace FPTBook.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Title,Body,Date")] Book book)
+        public ActionResult Edit(Models.Book book, HttpPostedFileBase fileImage)
         {
-            if (ModelState.IsValid)
+            book.Category = db.Categories.Where(u => u.Id == book.Category.Id).FirstOrDefault();
+            book.Date = DateTime.Now;
+            if (!ModelState.IsValid)
             {
+                if (fileImage != null || fileImage.ContentLength > 0)
+                {
+                    string _Filename = Path.GetFileName(fileImage.FileName);
+
+                    string path = Path.Combine(Server.MapPath("/Images/"), _Filename);
+                    if (System.IO.File.Exists(path))
+                    {
+                        System.IO.File.Delete(path);
+                        fileImage.SaveAs(path);
+                        book.ImagePath = _Filename;
+                    }
+                    else
+                    {
+                        fileImage.SaveAs(path);
+                        book.ImagePath = _Filename;
+                    }
+                }
                 db.Entry(book).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -126,6 +157,8 @@ namespace FPTBook.Controllers
         // GET: Books/Delete/5
         public ActionResult Delete(int? id)
         {
+            var cart = ShoppingCart.GetCart(this.HttpContext);
+            ViewBag.CartCount = cart.GetCount();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -135,6 +168,8 @@ namespace FPTBook.Controllers
             {
                 return HttpNotFound();
             }
+
+            ViewBag.ImgPath = book.ImagePath;
             return View(book);
         }
 
