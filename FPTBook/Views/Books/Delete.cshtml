@@ -20,24 +20,22 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Body)
+            @Html.DisplayNameFor(model => model.Description)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Body)
+            @Html.DisplayFor(model => model.Description)
         </dd>
-
         <dt>
-            @Html.DisplayNameFor(model => model.Date)
+            Image
         </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Date)
-        </dd>
-
+        <dt>
+            <img src="\..\..\Images\@ViewBag.ImgPath" alt="" width="100px" />
+        </dt>
     </dl>
 
-    @using (Html.BeginForm()) {
+    @using (Html.BeginForm())
+    {
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
