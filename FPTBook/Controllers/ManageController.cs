@@ -72,6 +72,8 @@ namespace FPTBook.Controllers
                 Logins = await UserManager.GetLoginsAsync(userId),
                 BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
             };
+            var cart = ShoppingCart.GetCart(this.HttpContext);
+            ViewBag.CartCount = cart.GetCount();
             return View(model);
         }
 
