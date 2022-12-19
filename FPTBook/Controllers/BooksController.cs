@@ -12,6 +12,7 @@ using FPTBook.Models.ViewModels;
 
 namespace FPTBook.Controllers
 {
+    [Authorize(Roles = "Administrators")]
     public class BooksController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -126,8 +127,11 @@ namespace FPTBook.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Models.Book book, HttpPostedFileBase fileImage)
         {
+            //Using AsNoTracking for update the book without tracking wrong object
+            var unchangeBook = db.Books.AsNoTracking().Where(u => u.Id == book.Id).FirstOrDefault();
             book.Category = db.Categories.Where(u => u.Id == book.Category.Id).FirstOrDefault();
             book.Date = DateTime.Now;
+
             if (!ModelState.IsValid)
             {
                 if (fileImage != null || fileImage.ContentLength > 0)
@@ -135,6 +139,8 @@ namespace FPTBook.Controllers
                     string _Filename = Path.GetFileName(fileImage.FileName);
 
                     string path = Path.Combine(Server.MapPath("/Images/"), _Filename);
+                    
+
                     if (System.IO.File.Exists(path))
                     {
                         System.IO.File.Delete(path);
@@ -143,6 +149,13 @@ namespace FPTBook.Controllers
                     }
                     else
                     {
+                        //Using request map path to delete file in Server
+                        string fullPath = Request.MapPath("/Images/" + unchangeBook.ImagePath);
+                        
+                        if (System.IO.File.Exists(fullPath))
+                        {
+                            System.IO.File.Delete(fullPath);
+                        }
                         fileImage.SaveAs(path);
                         book.ImagePath = _Filename;
                     }
@@ -179,7 +192,10 @@ namespace FPTBook.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Models.Book book = db.Books.Find(id);
+            string fullPath = Request.MapPath("/Images/" + book.ImagePath);
+            System.IO.File.Delete(fullPath);
             db.Books.Remove(book);
+
             db.SaveChanges();
             return RedirectToAction("Index");
         }

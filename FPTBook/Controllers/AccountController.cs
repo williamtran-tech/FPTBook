@@ -70,6 +70,19 @@ namespace FPTBook.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
+            var cart = ShoppingCart.GetCart(this.HttpContext);
+            
+            if (returnUrl == "/Books" && model.Email != "admin@gmail.com")
+            {
+                ModelState.AddModelError("", "Your do not have permission to access.");
+                ViewBag.CartCount = cart.GetCount();
+                return View(model);
+            }
+            else if (returnUrl == "/Books" && model.Email == "admin@gmail.com")
+            {
+                return RedirectToAction("Index", "Books");
+            }
+
             if (!ModelState.IsValid)
             {
                 return View(model);
@@ -90,6 +103,7 @@ namespace FPTBook.Controllers
                 case SignInStatus.Failure:
                 default:
                     ModelState.AddModelError("", "Invalid login attempt.");
+                    ViewBag.CartCount = cart.GetCount();
                     return View(model);
             }
         }

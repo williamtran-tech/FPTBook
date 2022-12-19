@@ -6,6 +6,14 @@
 <h2>@ViewBag.Title.</h2>
 
 <p class="text-success">@ViewBag.StatusMessage</p>
+
+@if (User.Identity.IsAuthenticated && User.IsInRole("Administrators"))
+            {
+                <div>
+                    <h2>Manage Bookstore</h2>
+                    @Html.ActionLink("Admin Panel", "Index", "Books")
+                </div>
+            }
 <div>
     <h4>Change your account settings</h4>
     <hr />
