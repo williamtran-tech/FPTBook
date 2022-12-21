@@ -79,6 +79,7 @@
           <Property Name="Slug" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Category_Id" Type="int" Nullable="false" />
           <Property Name="Author" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ImagePath" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
         <EntityType Name="Carts">
           <Key>
@@ -114,12 +115,12 @@
             <PropertyRef Name="OrderId" />
           </Key>
           <Property Name="OrderId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Username" Type="nvarchar(max)" />
           <Property Name="Address" Type="nvarchar(max)" />
           <Property Name="Phone" Type="nvarchar(max)" />
           <Property Name="Email" Type="nvarchar(max)" />
           <Property Name="Total" Type="float" Nullable="false" />
           <Property Name="OrderDate" Type="datetime" Nullable="false" />
+          <Property Name="Username_Id" Type="nvarchar" MaxLength="128" />
         </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
@@ -245,6 +246,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_dbo_Orders_dbo_AspNetUsers_Username_Id">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
+          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="Username_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="ModelStoreContainer">
           <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
@@ -292,6 +305,10 @@
           <AssociationSet Name="FK_dbo_OrderDetails_dbo_Orders_OrderId" Association="Self.FK_dbo_OrderDetails_dbo_Orders_OrderId">
             <End Role="Orders" EntitySet="Orders" />
             <End Role="OrderDetails" EntitySet="OrderDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Orders_dbo_AspNetUsers_Username_Id" Association="Self.FK_dbo_Orders_dbo_AspNetUsers_Username_Id">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Orders" EntitySet="Orders" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -358,6 +375,7 @@
           <NavigationProperty Name="AspNetUserLogins" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserLogins" />
           <NavigationProperty Name="AspNetRoles" Relationship="Self.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
           <NavigationProperty Name="Carts" Relationship="Model.FK_dbo_Carts_dbo_AspNetUsers_User_Id" FromRole="AspNetUser" ToRole="Cart" />
+          <NavigationProperty Name="Orders" Relationship="Model.FK_dbo_Orders_dbo_AspNetUsers_Username_Id" FromRole="AspNetUser" ToRole="Order" />
         </EntityType>
         <EntityType Name="Book">
           <Key>
@@ -374,6 +392,7 @@
           <NavigationProperty Name="Category" Relationship="Self.FK_dbo_Books_dbo_Categories_Category_Id" FromRole="Books" ToRole="Categories" />
           <NavigationProperty Name="Carts" Relationship="Self.FK_dbo_Carts_dbo_Books_BookId" FromRole="Books" ToRole="Carts" />
           <NavigationProperty Name="OrderDetails" Relationship="Self.FK_dbo_OrderDetails_dbo_Books_BookId" FromRole="Books" ToRole="OrderDetails" />
+          <Property Name="ImagePath" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Cart">
           <Key>
@@ -421,6 +440,8 @@
           <Property Name="Total" Type="Double" Nullable="false" />
           <Property Name="OrderDate" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="OrderDetails" Relationship="Self.FK_dbo_OrderDetails_dbo_Orders_OrderId" FromRole="Orders" ToRole="OrderDetails" />
+          <Property Name="Username_Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="Model.FK_dbo_Orders_dbo_AspNetUsers_Username_Id" FromRole="Order" ToRole="AspNetUser" />
         </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1">
@@ -553,6 +574,10 @@
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
             <End Role="Cart" EntitySet="Carts" />
           </AssociationSet>
+          <AssociationSet Name="FK_dbo_Orders_dbo_AspNetUsers_Username_Id" Association="Model.FK_dbo_Orders_dbo_AspNetUsers_Username_Id">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
         </EntityContainer>
         <Association Name="FK_dbo_Carts_dbo_AspNetUsers_User_Id">
           <End Type="Model.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
@@ -563,6 +588,18 @@
             </Principal>
             <Dependent Role="Cart">
               <PropertyRef Name="User_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Orders_dbo_AspNetUsers_Username_Id">
+          <End Type="Model.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
+          <End Type="Model.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="Username_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -631,6 +668,7 @@
           <EntitySetMapping Name="Books">
             <EntityTypeMapping TypeName="Model.Book">
               <MappingFragment StoreEntitySet="Books">
+                <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
@@ -677,8 +715,8 @@
           <EntitySetMapping Name="Orders">
             <EntityTypeMapping TypeName="Model.Order">
               <MappingFragment StoreEntitySet="Orders">
+                <ScalarProperty Name="Username_Id" ColumnName="Username_Id" />
                 <ScalarProperty Name="OrderId" ColumnName="OrderId" />
-                <ScalarProperty Name="Username" ColumnName="Username" />
                 <ScalarProperty Name="Address" ColumnName="Address" />
                 <ScalarProperty Name="Phone" ColumnName="Phone" />
                 <ScalarProperty Name="Email" ColumnName="Email" />

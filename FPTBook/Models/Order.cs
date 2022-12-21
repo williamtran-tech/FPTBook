@@ -10,7 +10,7 @@ namespace FPTBook.Models
     {
         [Key]
         public int OrderId { get; set; }
-        public string Username { get; set; }
+        public ApplicationUser Username { get; set; }
         public string Address { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }

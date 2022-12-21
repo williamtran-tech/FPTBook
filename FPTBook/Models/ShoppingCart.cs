@@ -17,10 +17,27 @@ namespace FPTBook.Models
             cart.ShoppingCartId = cart.GetCartId(context);
             return cart;
         }
-        // Helper method to simplify shopping cart calls
-        public static ShoppingCart GetCart(Controller controller)
+   
+
+         // We're using HttpContextBase to allow access to cookies.
+        // Getting the data from cart from this method 
+        public string GetCartId(HttpContextBase context)
         {
-            return GetCart(controller.HttpContext);
+            if (context.Session[CartSessionKey] == null)
+            {
+                if (!string.IsNullOrWhiteSpace(context.User.Identity.Name))
+                {
+                    context.Session[CartSessionKey] = context.User.Identity.Name;
+                }
+                else
+                {
+                    // Generate a new random GUID using System.Guid class
+                    Guid tempCartId = Guid.NewGuid();
+                    // Send tempCartId back to client as a cookie
+                    context.Session[CartSessionKey] = tempCartId.ToString();
+                }
+            }
+            return context.Session[CartSessionKey].ToString();
         }
         public void AddToCart(Book book)
         {
@@ -113,26 +130,6 @@ namespace FPTBook.Models
             return total ?? decimal.Zero;
         }
         
-        // We're using HttpContextBase to allow access to cookies.
-        // Getting the data from cart from this method 
-        public string GetCartId(HttpContextBase context)
-        {
-            if (context.Session[CartSessionKey] == null)
-            {
-                if (!string.IsNullOrWhiteSpace(context.User.Identity.Name))
-                {
-                    context.Session[CartSessionKey] = context.User.Identity.Name;
-                }
-                else
-                {
-                    // Generate a new random GUID using System.Guid class
-                    Guid tempCartId = Guid.NewGuid();
-                    // Send tempCartId back to client as a cookie
-                    context.Session[CartSessionKey] = tempCartId.ToString();
-                }
-            }
-            return context.Session[CartSessionKey].ToString();
-        }
         // When a user has logged in, migrate their shopping cart to
         // be associated with their username
         public void MigrateCart(string userName)
@@ -191,6 +188,13 @@ namespace FPTBook.Models
             EmptyCart();
             // Return the OrderId as the confirmation number
             return order.OrderId;
+        }
+
+
+        // Helper method to simplify shopping cart calls
+        public static ShoppingCart GetCart(Controller controller)
+        {
+            return GetCart(controller.HttpContext);
         }
     }
 }

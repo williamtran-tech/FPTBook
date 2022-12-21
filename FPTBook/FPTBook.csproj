@@ -234,6 +234,10 @@
     <Compile Include="Migrations\202212171433101_notAllowNullForImgPath.Designer.cs">
       <DependentUpon>202212171433101_notAllowNullForImgPath.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202212191526434_AddRelationshipOrderandUser.cs" />
+    <Compile Include="Migrations\202212191526434_AddRelationshipOrderandUser.Designer.cs">
+      <DependentUpon>202212191526434_AddRelationshipOrderandUser.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model1.Context.cs">
       <AutoGen>True</AutoGen>
@@ -399,6 +403,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202212171433101_notAllowNullForImgPath.resx">
       <DependentUpon>202212171433101_notAllowNullForImgPath.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202212191526434_AddRelationshipOrderandUser.resx">
+      <DependentUpon>202212191526434_AddRelationshipOrderandUser.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

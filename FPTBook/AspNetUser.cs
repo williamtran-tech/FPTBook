@@ -21,6 +21,7 @@ namespace FPTBook
             this.AspNetUserLogins = new HashSet<AspNetUserLogin>();
             this.AspNetRoles = new HashSet<AspNetRole>();
             this.Carts = new HashSet<Cart>();
+            this.Orders = new HashSet<Order>();
         }
     
         public string Id { get; set; }
@@ -45,5 +46,7 @@ namespace FPTBook
         public virtual ICollection<AspNetRole> AspNetRoles { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Cart> Carts { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Order> Orders { get; set; }
     }
 }

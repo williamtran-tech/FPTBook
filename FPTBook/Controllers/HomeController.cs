@@ -14,7 +14,7 @@ namespace FPTBook.Controllers
         {
             var cart = ShoppingCart.GetCart(this.HttpContext);
             ViewBag.CartCount = cart.GetCount();
-            return View(db.Books.Take(4).ToList());
+            return View(db.Books.ToList());
         }
 
         public ActionResult About()
