@@ -44,22 +44,20 @@
             BEST SELLER
         </h2>
     </div>
-    <div class="card-container">
-        <div class="row card-row">
-            @foreach (var book in Model)
-            {
-                <div class="card col-md-2">
-                    <img src="~\..\..\Images\@book.ImagePath" alt="@book.Slug" class="product-image" />
-                    <p class="title">@book.Title</p>
-                    <p>$@book.Price</p>
-                    <div>
-                        <a href="#" class="AddToCart buttonover btn btn-primary" data-id="@book.Id">
-                            Buy
-                        </a>
-                    </div>
+    <div class="grid-container">
+        @foreach (var book in Model)
+        {
+            <div class="card">
+                <img src="~\..\..\Images\@book.ImagePath" alt="@book.Slug" class="product-image" />
+                <p class="title">@book.Title</p>
+                <p>$@book.Price</p>
+                <div>
+                    <a href="#" class="AddToCart buttonover btn btn-primary" data-id="@book.Id">
+                        Buy
+                    </a>
                 </div>
-            }
-        </div>
+            </div>
+        }
     </div>
 </div>
 
